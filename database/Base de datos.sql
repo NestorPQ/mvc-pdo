@@ -133,8 +133,7 @@ UPDATE usuarios SET
 	WHERE idusuario = 1;
 	
 UPDATE usuarios SET
-	claveacceso = '$2y$10$u.8fXT9uFZp/zbmsYp/liOVQGUPM9dDC4YxIWImmi6FEMjKl46TEW'
-	WHERE idusuario = 2;
+	claveacceso = '$2y$10$u.8fXT9uFZp/zbmsYp/liOVQGUPM9dDC4YxIWImmi6FEMjKl46TEW';
 	
 	
 DELIMITER $$
@@ -150,3 +149,75 @@ BEGIN
 END $$
 
 CALL spu_usuarios_login('JHON');
+
+
+
+
+--  PROCEDIMIENTOS ALMACENADO DE TABLA USARIO
+
+
+-- REGISTRAR USUARIO
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_registrar
+(
+	IN _nombreusuario	VARCHAR(30),
+	IN _claveacceso	VARCHAR(90),
+	IN _apellidos	VARCHAR(30),
+	IN _nombres	VARCHAR(30)
+)
+BEGIN
+	INSERT INTO usuarios (nombreusuario,claveacceso,apellidos,nombres) VALUES
+		(_nombreusuario,_claveacceso,_apellidos,_nombres);
+END $$
+
+
+CALL spu_usuarios_registrar('LUI', '123456', 'Luis','Manuel');
+
+
+--  MOSTRAR USUARIO
+-- (puede ser modificado, despues de borrarlo)
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_listar()
+BEGIN
+	SELECT	*
+		FROM usuarios
+		WHERE estado = '0'
+		ORDER BY idusuario DESC;
+END $$
+
+CALL spu_usuarios_listar();
+
+
+--  BORRAR USUARIOS
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_eliminar(IN _idusuario INT)
+BEGIN
+	UPDATE usuarios SET estado = '0' WHERE idusuario = _idusuario;
+END $$
+
+CALL spu_usuarios_eliminar(1);
+
+
+--  ACTUALIZAR USUARIOS
+
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_actualizar(
+	IN _idusuario	INT,  --  necesita el id por actualizar
+	IN _nombreusuario	VARCHAR(30),
+	IN _apellidos	VARCHAR(30),  -- no puse para actualizar su clave de acceso
+	IN _nombres	VARCHAR(30)
+)
+BEGIN
+	UPDATE usuarios SET
+		nombreusuario = _nombreusuario,
+		apellidos = _apellidos,
+		nombres = _nombres
+	WHERE idusuario = _idusuario;
+END $$
+
+
+CALL spu_usuarios_actualizar(4,'Manu','Marcos Rojas','Manuel');
+
+
+SELECT * FROM usuarios;
+
