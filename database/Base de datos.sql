@@ -94,9 +94,59 @@ BEGIN
 		complejidad = _complejidad,
 		fechainicio = _fechainicio,
 		precio = _precio
+		--  fechaupdate = NOW()
 	WHERE idcurso = _idcurso;
 END $$
 
 
 SELECT * FROM cursos WHERE idcurso = 3;
 CALL spu_cursos_actualizar(3,'Excel contadores','ETI','B','2023-06-20', 350);
+
+
+CREATE TABLE usuarios
+(
+	idusuario		INT AUTO_INCREMENT PRIMARY KEY,
+	nombreusuario	VARCHAR(30)		NOT NULL,
+	claveacceso		VARCHAR(90)		NOT NULL,
+	apellidos		VARCHAR(30)		NOT NULL,
+	nombres			VARCHAR(30)		NOT NULL,
+	nivelacceso 	CHAR(1)			NOT NULL DEFAULT 'A',
+	estado			CHAR(1)			NOT NULL DEFAULT '1',
+	fecharegistro	DATETIME			NOT NULL DEFAULT NOW(),
+	fechaupdate		DATETIME			NULL,
+	CONSTRAINT uk_nombreusuario_usa UNIQUE (nombreusuario)
+)ENGINE = INNODB;
+
+
+INSERT INTO usuarios (nombreusuario, claveacceso, apellidos, nombres)	VALUES
+	('JHON', '123456', 'Francia Minaya','Jhon Edward'),
+	('Nest', '123456', 'PQ','Nestor'),
+	('JOEL','123456','Rojas Marcos','José Joel');
+	
+SELECT * FROM usuarios;
+
+
+--  ACTUALIZAMOS  por clave encriptada
+--  Defecto: SENATI
+UPDATE usuarios SET
+	claveacceso = '$2y$10$u.8fXT9uFZp/zbmsYp/liOVQGUPM9dDC4YxIWImmi6FEMjKl46TEW'
+	WHERE idusuario = 1;
+	
+UPDATE usuarios SET
+	claveacceso = '$2y$10$u.8fXT9uFZp/zbmsYp/liOVQGUPM9dDC4YxIWImmi6FEMjKl46TEW'
+	WHERE idusuario = 2;
+	
+	
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_login
+(
+	IN _nombreusuario VARCHAR(30)
+)
+BEGIN
+	SELECT	idusuario, nombreusuario, claveacceso,
+				apellidos,nombres,nivelacceso
+		FROM usuarios
+		WHERE nombreusuario = _nombreusuario AND estado = '1';
+END $$
+
+CALL spu_usuarios_login('JHON');
