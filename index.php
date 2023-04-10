@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if(isset($_SESSION['login']) && $_SESSION['login']) {
+  header('Location:views/index.php');
+}
+?>
+
 <!doctype html>
 <html lang="es">
 
@@ -17,12 +25,12 @@
  
   <div class="container">
     <div class="row mt-3">
-      <div class="col-md-6"></div>
+      <div class="col-md-3"></div>
       <div class="col-md-6">
         <!-- Inicio de CARD -->
 
         <div class="card">
-          <div class="card-header">
+          <div class="card-header bg-primary text-light">
             <strong>Inicio de sesión</strong>
           </div>
           <div class="card-body">
@@ -39,16 +47,55 @@
             </form>
           </div>
           <div class="card-footer text-muted">
-            <button type="button" class="btn btn-sm btn-success">Iniciar Session</button>
+            <button type="button" class="btn btn-sm btn-success" id="iniciar-sesion">Iniciar Session</button>
           </div>
         </div>
 
         <!-- Fin de CARD -->
       </div>
-      <div class="col-md-4"></div>
+      <div class="col-md-3"></div>
     </div>
   </div>
 
+
+  
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function (){
+
+      function iniciarSesion(){
+        const usuario = $("#usuario").val();
+        const clave = $("#clave").val();
+
+        if (usuario != "" && clave != ""){
+          $.ajax({
+            url: 'controllers/usuario.controller.php',
+            type: 'POST',
+            data: {
+              operacion         : 'login',
+              nombreusuario     : usuario,
+              claveIngresada    : clave
+            },
+            dataType: 'JSON',
+            success: function (result) {
+              console.log(result);
+
+              if (result["status"]){
+                window.location.href = "views/index.php"
+              }else{
+                alert(["CONTRASEÑA INCORRECTA"]);
+              }
+            }
+
+          });
+      }
+    }
+
+    $("#iniciar-sesion").click(iniciarSesion);
+    })
+  </script>
 
 </body>
 
