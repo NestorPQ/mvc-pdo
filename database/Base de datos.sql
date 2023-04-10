@@ -64,6 +64,8 @@ CALL spu_cursos_registrar('Python para todos', 'ETI', 'B', '2023-05-10', 120);
 CALL spu_cursos_listar();
 
 
+--  Eliminar curso
+
 
 -- Lunes 10 abril 2023
 DELIMITER $$
@@ -75,3 +77,26 @@ END $$
 CALL spu_cursos_recuperar_id(3);
 
 
+--  Actualizar
+DELIMITER $$
+CREATE PROCEDURE spu_cursos_actualizar(
+	IN _idcurso	INT,
+	IN _nombrecurso	VARCHAR(50),
+	IN _especialidad	VARCHAR(70),
+	IN _complejidad	CHAR(1),
+	IN _fechainicio	DATE,
+	IN _precio			DECIMAL(7,2)
+)
+BEGIN
+	UPDATE cursos SET
+		nombrecurso = _nombrecurso,
+		especialidad = _especialidad,
+		complejidad = _complejidad,
+		fechainicio = _fechainicio,
+		precio = _precio
+	WHERE idcurso = _idcurso;
+END $$
+
+
+SELECT * FROM cursos WHERE idcurso = 3;
+CALL spu_cursos_actualizar(3,'Excel contadores','ETI','B','2023-06-20', 350);
