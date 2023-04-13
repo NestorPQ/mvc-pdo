@@ -215,6 +215,15 @@ END $$
 
 CALL spu_usuarios_eliminar(2);
 
+--  RECUPERAR ID
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_recuperar_id(IN _idusuario INT)
+BEGIN 
+	SELECT * FROM usuarios WHERE idusuario = _idusuario;
+END $$
+
+CALL spu_usuarios_recuperar_id()
+
 
 --  ACTUALIZAR USUARIOS
 

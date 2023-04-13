@@ -22,37 +22,39 @@ if(isset($_SESSION['login']) && $_SESSION['login']) {
 </head>
 
 <body>
- 
+  
   <div class="container">
-      <div class="row mt-3">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <!-- Inicio de CARD -->
-          <div class="card">
-            <div class="card-header bg-primary text-light">
-              <strong>Inicio de sesión</strong>
-            </div>
-            <div class="card-body">
-              <form action="" autocomplete="off">
-                <div class="mb-3">
-                  <label for="usuario" class="form-label">Usuario:</label>
-                  <input type="text" id="usuario" class="form-control form-control-sm" autofocus>
-                </div>
-                <div class="mb-3">
-                  <label for="clave" class="form-label">Contraseña:</label>
-                  <input type="password" id="clave" class="form-control form-control-sm">
-                </div>
-              </form>
-            </div>
-            <div class="card-footer text-end">
-              <button type="button" id="iniciar-sesion" class="btn btn-sm btn-success">Iniciar sesión</button>
-            </div>
+    <div class="row mt-3">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+
+        <!-- Inicio de CARD -->
+        <div class="card">
+          <div class="card-header bg-primary text-light">
+            <strong>Inicio de sesión</strong>
           </div>
-          <!-- Fin de CARD -->
+          <div class="card-body">
+            <form action="" autocomplete="off">
+              <div class="mb-3">
+                <label for="usuario" class="form-label">Usuario:</label>
+                <input type="text" id="usuario" class="form-control form-control-sm" autofocus>
+              </div>
+              <div class="mb-3">
+                <label for="clave" class="form-label">Contraseña:</label>
+                <input type="password" id="clave" class="form-control form-control-sm">
+              </div>
+            </form>
+          </div>
+          <div class="card-footer text-end">
+            <button type="button" id="iniciar-sesion" class="btn btn-sm btn-success">Iniciar sesión</button>
+          </div>
         </div>
-        <div class="col-md-3"></div>
+        <!-- Fin de CARD -->
+
       </div>
+      <div class="col-md-3"></div>
     </div>
+  </div>
 
   
   <!-- jQuery -->
