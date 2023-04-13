@@ -65,4 +65,33 @@ class Usuario extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function getUsuario($idusuario = 0){
+    try{
+      $consulta = $this->accesoBD->prepare("CALL spu_usuarios_recuperar_id(?)");
+      $consulta->execute(array($idusuario));
+
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    }catch (Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function actualizarUsuario($datos = []){
+    try{
+      $consulta = $this->accesoBD->prepare("CALL spu_usuarios_actualizar(?,?,?,?,?)");
+
+      $consulta->execute(array(
+        $datos["idusuario"],
+        $datos["nombreusuario"],
+        $datos["nombres"],
+        $datos["apellidos"],
+        $datos["claveacceso"]
+      ));
+
+      
+    }catch (Exception $e){
+      die($e->getMessage());
+    }
+  }
 }

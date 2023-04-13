@@ -92,9 +92,29 @@ if(isset($_POST['operacion'])){
 		$usuario->registrarUsuario($datosForm);
 	}
 
+	//  Obtener Usuario
+	if($_POST['operacion'] == 'obtenerusuario'){
+		$registro = $usuario->getUsuario($_POST['idusuario']);
+		echo json_encode($registro);
+	}
+
+	//  Actualizar Usuario
+	if($_POST['operacion'] == 'actualizar'){
+		$datosForm = [
+			"idusuario"			=>	$_POST['idusuario'],
+			"nombreusuario"		=>	$_POST['nombreusuario'],
+			"nombres"			=>	$_POST['nombres'],
+			"apellidos"			=>	$_POST['apellidos'],
+			"claveacceso"		=>	$_POST['claveacceso']
+		];
+		$usuario->actualizarUsuario($datosForm);
+	}
+
+
+
 }
 
-// I
+// Cerrar Session
 if(isset($_GET['operacion'])){
 	if($_GET['operacion'] == 'finalizar'){
 		session_destroy();

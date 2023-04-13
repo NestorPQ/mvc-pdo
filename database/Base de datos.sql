@@ -222,7 +222,7 @@ BEGIN
 	SELECT * FROM usuarios WHERE idusuario = _idusuario;
 END $$
 
-CALL spu_usuarios_recuperar_id()
+CALL spu_usuarios_recuperar_id(10)
 
 
 --  ACTUALIZAR USUARIOS

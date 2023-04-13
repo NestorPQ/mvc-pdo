@@ -80,8 +80,8 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitleId">Nuevo Usuario</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="modal-titulo">Nuevo Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="abrir-modal"></button>
       </div>
       <div class="modal-body">
         
@@ -136,6 +136,10 @@
     //  Ejecutamos el código JavaScript después de que se haya cargado completamente el DOM
     $(document).ready(function(){
 
+      //  Declaramos variables de ambito de bloque
+      let datosNuevos = true;
+      let idusuarioactualizar = -1;
+
       //  Hacemos una consulta asincrona al servidor
       //  Función mostrar platos
       function mostrarUsuarios(){
@@ -153,11 +157,47 @@
           });
       }  // Fin de la función mostrar usuarios
 
-
       function eliminarUsuario(){
         console.log("Eliminando");
       }
-
+      
+      function registrarUsuario(){
+        console.log("Registrando....");
+        
+        if(confirm("¿Estas segura de registrar en este usuario?")){
+          $.ajax({
+            url: '../controllers/usuario.controller.php',
+            type: 'POST',
+            data: {
+              operacion  : 'registrar',
+              nombreusuario    :  $("#nombreusuario").val(),
+              nombres    :  $("#nombres").val(),
+              apellidos    :  $("#apellidos").val(),
+              claveacceso    :  $("#claveacceso").val(),
+            },
+            success: function(result){
+              if(result == ""){
+                $("#formulario-usuarios")[0].reset();
+                
+                mostrarUsuarios();
+                
+                $("#modal-registro-usuarios").modal('hide');
+              }
+            }
+          });
+        }
+      }
+      
+      function abrirModal(){
+        datosNuevos = true;
+        $("#modal-titulo").html("Registro del usuario");
+        $("#formulario-usuarios")[0].reset();
+      }
+      
+      //  EVENTOS
+      $("#guardar-usuario").click(registrarUsuario);
+      $("#abrir-modal").click(abrirModal);
+      
       $("#tabla-usuarios tbody").on("click", ".eliminar", function(){
         const idusuarioEliminar = $(this).data("idusuario");
 
@@ -178,42 +218,43 @@
         }
       });
 
-      function registrarUsuario(){
-        console.log("Registrando....");
+      $("#tabla-usuarios tbody").on ("click", ".editar", function(){
+        const idusuarioeditar = $(this).data("idusuario");
+        console.log("Actualizando");
 
-        if(confirm("¿Estas segura de registrar en este usuario?")){
-          $.ajax({
-            url: '../controllers/usuario.controller.php',
-            type: 'POST',
-            data: {
-              operacion  : 'registrar',
-              nombreusuario    :  $("#nombreusuario").val(),
-              nombres    :  $("#nombres").val(),
-              apellidos    :  $("#apellidos").val(),
-              claveacceso    :  $("#claveacceso").val(),
-            },
-            success: function(result){
-              if(result == ""){
-                $("#formulario-usuarios")[0].reset();
+        $.ajax({
+          url : '../controllers/usuario.controller.php',
+          type : 'POST',
+          data : {
+            operacion     : 'obtenerusuario',
+            idusuario   : idusuarioeditar
+          },
+          dataType : 'JSON',
+          success : function(result){
+            console.log(result);
 
-                mostrarUsuarios();
+            datosNuevos = false;
 
-                $("#modal-registro-usuarios").modal('hide');
-              }
-            }
-          });
-        }
-      }
+            idusuarioactualizar = result["idusuario"];
+            $("#nombreusuario").val(result["nombreusuario"]);
+            $("#nombres").val(result["nombres"]);
+            $("#apellidos").val(result["apellidos"]);
+            $("#claveacceso").val(result["claveacceso"]);
 
-      //  EVENTOS
-      $("#guardar-usuario").click(registrarUsuario);
+            $("#modal-titulo").html("Actualizar datos de usuario");
+
+            $("#modal-registro-usuarios").modal("show");
+          }
+        });
+      })
+
 
       //  Ejecución automatica
       mostrarUsuarios();
     });
 
+    </script>
     
-  </script>
 
 </body>
 
