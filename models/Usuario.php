@@ -24,7 +24,15 @@ class Usuario extends Conexion{
 
   public function registrarUsuario(){}
 
-  public function eliminarUsuario(){}
+  public function eliminarUsuario($idusuario = 0){
+    try{
+
+      $consulta = $this->accesoBD->prepare("CALL spu_usuarios_eliminar(?)");
+      $consulta->execute(array($idusuario));
+    }catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
 
   public function listarUsuario(){
     try{

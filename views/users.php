@@ -17,6 +17,13 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
+    <!-- Iconos de Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+
+  <!-- Data Tables -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
+
 </head>
 
 <body>
@@ -45,6 +52,7 @@
             <col width = "20%">
             <col width = "10%">
           </colgroup>
+
           <thead>
             <tr>
               <th>#</th>
@@ -65,6 +73,13 @@
       </div> -->
     </div>
   </div> <!-- Fin de container -->
+
+  <!-- Inicio del Modal-->
+
+
+
+
+  <!-- Fin del Modal -->
 
 
   <!-- Bootstrap JavaScript Libraries -->
@@ -97,12 +112,37 @@
             success: function(result){
               $("#tabla-usuarios tbody").html(result);
             }
-          })
+          });
       }  // Fin de la función mostrar usuarios
 
-    //  EVENTOS
-    mostrarUsuarios();
-    })
+
+      function eliminarUsuario(){
+        console.log("Eliminando");
+      }
+
+      $("#tabla-usuarios tbody").on("click", ".eliminar", function(){
+        const idusuarioEliminar = $(this).data("idusuario");
+
+        if(confirm("¿Estas seguro de proceder?")){
+          $.ajax({
+            url: '../controllers/usuario.controller.php',
+            type: 'POST',
+            data: {
+              operacion : 'eliminar',
+              idusuario : idusuarioEliminar
+            },
+            success: function(result){
+              if (result == ""){
+                mostrarUsuarios();
+              }
+            }
+          });
+        }
+      });
+
+      //  Ejecución automatica
+      mostrarUsuarios();
+    });
 
     
   </script>

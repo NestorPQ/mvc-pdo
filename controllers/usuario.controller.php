@@ -74,6 +74,11 @@ if(isset($_POST['operacion'])){
 
     }
   }
+
+  //  Eliminar Usuario
+  if($_POST['operacion'] == 'eliminar'){
+    $usuario->eliminarUsuario($_POST['idusuario']);
+  }
   
 }
 

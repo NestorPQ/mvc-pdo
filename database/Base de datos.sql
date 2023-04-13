@@ -232,12 +232,15 @@ BEGIN
 		nombres = _nombres,
 		apellidos = _apellidos,
 		claveacceso = _claveacceso
-	WHERE idusuario = _idusuario
+		
+	WHERE idusuario = _idusuario;
 END $$
 
 
-CALL spu_usuarios_actualizar(4,'Manu','Marcos Rojas','Manuel');
+CALL spu_usuarios_actualizar(4,'Manu77', 'Manuel', 'Marcos Rojas', '123456');
 
 
 SELECT * FROM usuarios;
 
+UPDATE usuarios SET claveacceso = '123456';
+UPDATE usuarios SET estado = '1';
