@@ -36,7 +36,7 @@
             <strong>LISTA DE USUARIOS</strong>
           </div>
           <div class="col-md-6 text-end">
-            <button class="btn btn-success btn-sm" id="abrir-modal" data-bs-toggle="modal" data-bs-target="#modal-registro-cursos">
+            <button class="btn btn-success btn-sm" id="abrir-modal" data-bs-toggle="modal" data-bs-target="#modal-registro-usuarios">
               <i class="bi bi-plus-circle-fill"></i> Agregar Usuario
             </button>
           </div>
@@ -68,15 +68,53 @@
           </tbody>
         </table>
       </div>
-      <!-- <div class="card-footer text-end">
-        <a href="../controllers/usuario.controller.php?operacion=finalizar">Cerrar sesión</a>
-      </div> -->
     </div>
   </div> <!-- Fin de container -->
 
   <!-- Inicio del Modal-->
 
 
+<!-- Modal Body -->
+<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+<div class="modal fade" id="modal-registro-usuarios" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleId">Nuevo Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      <!-- Cuerpo del modal -->
+
+      <form id="formulario-usuarios">
+        <div class="mb-3">
+          <label for="nombreusuario" class="form-label">Usuario:</label>
+          <input type="text" class="form-control form-control-sm" id="nombreusuario" placeholder="Escriba un usuario">
+        </div>
+        <div class="mb-3">
+          <label for="nombres" class="form-label">Nombre:</label>
+          <input type="text" class="form-control form-control-sm" id="nombres" placeholder="Escriba su nombre">
+        </div>
+        <div class="mb-3">
+          <label for="apellidos" class="form-label">Apellido:</label>
+          <input type="text" class="form-control form-control-sm" id="apellidos" placeholder="Escriba su apellido">
+        </div>
+        <div class="mb-3">
+          <label for="claveacceso" class="form-label">Clave:</label>
+          <input type="password" class="form-control form-control-sm" id="claveacceso" placeholder="Escriba su clave">
+        </div>
+      </form>
+
+      <!-- Fin del  cuerpo del modal -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="guardar-usuario">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
   <!-- Fin del Modal -->
@@ -139,6 +177,36 @@
           });
         }
       });
+
+      function registrarUsuario(){
+        console.log("Registrando....");
+
+        if(confirm("¿Estas segura de registrar en este usuario?")){
+          $.ajax({
+            url: '../controllers/usuario.controller.php',
+            type: 'POST',
+            data: {
+              operacion  : 'registrar',
+              nombreusuario    :  $("#nombreusuario").val(),
+              nombres    :  $("#nombres").val(),
+              apellidos    :  $("#apellidos").val(),
+              claveacceso    :  $("#claveacceso").val(),
+            },
+            success: function(result){
+              if(result == ""){
+                $("#formulario-usuarios")[0].reset();
+
+                mostrarUsuarios();
+
+                $("#modal-registro-usuarios").modal('hide');
+              }
+            }
+          });
+        }
+      }
+
+      //  EVENTOS
+      $("#guardar-usuario").click(registrarUsuario);
 
       //  Ejecución automatica
       mostrarUsuarios();

@@ -22,7 +22,22 @@ class Usuario extends Conexion{
     }
   }
 
-  public function registrarUsuario(){}
+  public function registrarUsuario($datos = []){
+    try {
+      $consulta = $this->accesoBD->prepare("CALL spu_usuarios_registrar(?,?,?,?)");
+      $consulta->execute(
+        array(
+          $datos["nombreusuario"],
+          $datos["nombres"],
+          $datos["apellidos"],
+          $datos["claveacceso"]
+        )
+      );
+
+    }catch (Exception $e){
+      die($e->getMessage());
+    }
+  }
 
   public function eliminarUsuario($idusuario = 0){
     try{
