@@ -23,39 +23,52 @@ if(isset($_SESSION['login']) && $_SESSION['login']) {
 
 <body>
  
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <!-- Inicio de CARD -->
-
-        <div class="card">
-          <div class="card-header bg-primary text-light">
-            <strong>Inicio de sesión</strong>
+<div class="container mt-3">
+    <div class="card">
+      <div class="card-header bg-primary text-light">
+        <div class="row">
+          <div class="col-md-6">
+            <strong>LISTA DE CURSOS</strong>
           </div>
-          <div class="card-body">
-            <form action="">
-              <div class="mb-3">
-                <label for="usuario" class="form-label">Usuario:</label>
-                <input type="text" id="usuario" class="form-control form-control-sm" autofocus>
-              </div>
-              <!-- // ====== -->
-              <div class="mb-3">
-                <label for="clave" class="form-label">Contraseña:</label>
-                <input type="password" id="clave" class="form-control form-control-sm" >
-              </div>
-            </form>
-          </div>
-          <div class="card-footer text-muted">
-            <button type="button" class="btn btn-sm btn-success" id="iniciar-sesion">Iniciar Session</button>
+          <div class="col-md-6 text-end">
+            <button class="btn btn-success btn-sm" id="abrir-modal" data-bs-toggle="modal" data-bs-target="#modal-registro-cursos">
+              <i class="bi bi-plus-circle-fill"></i> Agregar curso
+            </button>
           </div>
         </div>
-
-        <!-- Fin de CARD -->
       </div>
-      <div class="col-md-3"></div>
+      <div class="card-body">
+        <table class="table table-sm table-striped" id="tabla-cursos">
+          <colgroup>
+            <col width = "5%">
+            <col width = "30%">
+            <col width = "25%">
+            <col width = "10%">
+            <col width = "10%">
+            <col width = "10%">
+            <col width = "10%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Especialidad</th>
+              <th>Nivel</th>
+              <th>Inicio</th>
+              <th>Inversión</th>
+              <th>Operaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer text-end">
+        <a href="../controllers/usuario.controller.php?operacion=finalizar">Cerrar sesión</a>
+      </div>
     </div>
-  </div>
+  </div> <!-- Fin de container -->
 
 
   

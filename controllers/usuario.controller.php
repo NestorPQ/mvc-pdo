@@ -46,6 +46,34 @@ if(isset($_POST['operacion'])){
     //  Enviamos el objeto resultado a la vista
     echo json_encode($resultado);
   }
+
+  //  Listar Usuarios
+  if($_POST['operacion'] == 'listar'){
+    $datosObtenidos = $usuario->listarUsuario();
+
+    if($datosObtenidos){
+      $numeroFila = 1;
+    
+      foreach($datosObtenidos as $usuario){
+        echo "
+        <tr>
+          <td>{$numeroFila}</td>
+          <td>{$usuario['nombreusuario']}</td>
+          <td>{$usuario['nombres']}</td>
+          <td>{$usuario['apellidos']}</td>
+          <td>{$usuario['claveacceso']}</td>
+          <td>
+            <a href='#' data-idusuario='{$usuario['idusuario']}' class='btn btn-danger btn-sm eliminar'><i class='bi bi-trash'></i></a>
+            <a href='#' data-idusuario='{$usuario['idusuario']}' class='btn btn-success btn-sm editar'><i class='bi bi-pencil'></i></a>                     
+          </td>
+        </tr>
+        
+        ";
+        $numeroFila++;
+      }
+
+    }
+  }
   
 }
 
